@@ -42,10 +42,6 @@ int main(int argc, char const *argv[])
     }
     std::cout << "Loaded " << cloud->width * cloud->height << " data points" << std::endl;
 
-    
-
-    
-
     // Compute principal directions
     Eigen::Vector4f pcaCentroid;
     pcl::compute3DCentroid<pcl::PointXYZRGB>(*cloud, pcaCentroid);
@@ -55,15 +51,15 @@ int main(int argc, char const *argv[])
     Eigen::Matrix3f eigenVectorsPCA = eigen_solver.eigenvectors();
     eigenVectorsPCA.col(2) = eigenVectorsPCA.col(0).cross(eigenVectorsPCA.col(1)); /// This line is necessary for proper orientation in some cases. The numbers come out the same without it, but
                                                                                    ///    the signs are different and the box doesn't get correctly oriented in some cases.
-    /* // Note that getting the eigenvectors can also be obtained via the PCL PCA interface with something like:
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloudPCAprojection (new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PCA<pcl::PointXYZ> pca;
-    pca.setInputCloud(cloudSegmented);
-    pca.project(cloud, *cloudPCAprojection);
+    // Note that getting the eigenvectors can also be obtained via the PCL PCA interface with something like:
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudPCAprojection (new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PCA<pcl::PointXYZRGB> pca;
+    pca.setInputCloud(cloud);
+    //pca.project(*cloud, *cloudPCAprojection);
     std::cerr << std::endl << "EigenVectors: " << pca.getEigenVectors() << std::endl;
     std::cerr << std::endl << "EigenValues: " << pca.getEigenValues() << std::endl;
     // In this case, pca.getEigenVectors() gives similar eigenVectors to eigenVectorsPCA.
-    */
+    
 
     // Transform the original cloud to the origin where the principal components correspond to the axes.
     Eigen::Matrix4f projectionTransform(Eigen::Matrix4f::Identity());

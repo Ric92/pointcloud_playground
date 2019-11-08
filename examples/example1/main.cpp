@@ -89,6 +89,30 @@ int main(int argc, char const *argv[])
     visu->addCube(bboxTransform, bboxQuaternion, maxPoint.x - minPoint.x, maxPoint.y - minPoint.y, maxPoint.z - minPoint.z, "bbox2", mesh_vp_3);
     visu->addPointCloud(cloud, ColorHandlerXYZ(cloud, 30, 144, 255), "bboxedCloud4", mesh_vp_4);
     visu->setShapeRenderingProperties(pcl::visualization::PCL_VISUALIZER_OPACITY, 0.5 ,"bbox2");
+
+    Eigen::Matrix4f pose = Eigen::Matrix4f::Identity();
+    pose.block(0,0,3,3) = bboxQuaternion.toRotationMatrix();
+    pose.block(0,3,3,1) = bboxTransform;
+    std::cout << "rotation matrix: \n" << bboxQuaternion.toRotationMatrix() << "\n";
+    std::cout << "translation: \n" << bboxTransform << "\n";
+    std::cout << "pose: \n" << pose << "\n";
+    std::cout << "projectionTransform: \n" << projectionTransform << "\n";
+
+    Eigen::Affine3f t;
+    t = projectionTransform;
+
+    Eigen::Affine3f t2;
+    t2 = pose;
+
+    std::cout << "affine projectionTransform: \n" << t.matrix() << "\n";
+    std::cout << "affine pose: \n" << t2.matrix() << "\n";
+
+
+    visu->addCoordinateSystem (0.1,bboxTransform(0),bboxTransform(1),bboxTransform(2), "PCA1", mesh_vp_1);
+    visu->addCoordinateSystem (0.1,t2, "PCA2", mesh_vp_2);
+    visu->addCoordinateSystem (0.1,t2, "PCA3", mesh_vp_3);
+    visu->addCoordinateSystem (0.1,t2, "PCA4", mesh_vp_4);
+
     visu->spinOnce(10,true);
     //Visualizer<pcl::PointXYZRGB> vis;
     //Eigen::Matrix4f pose;

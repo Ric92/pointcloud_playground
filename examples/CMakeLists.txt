@@ -33,3 +33,8 @@ build_example(segmentation segmentation_files)
 
 set(viewer_files viewer/viewer.cpp)
 build_example(viewer viewer_files)
+
+if(${OpenCV_FOUND})
+    set(grabcut_files grabcut/grabcut.cpp)
+    build_example(grabcut grabcut_files)
+endif()

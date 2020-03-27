@@ -49,6 +49,13 @@ else()
 	MESSAGE( FATAL_ERROR "Couldnt Add PCL and/or it's dependencies")
 endif()
 
+find_package(OpenCV)
+if(${OpenCV_FOUND})
+	target_include_directories(${PROJECT_NAME} PUBLIC ${OpenCV_INCLUDE_DIRS})
+	target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${OpenCV_LIBS})
+	target_compile_definitions(${PROJECT_NAME} PUBLIC "HAS_OPENCV")
+endif()
+
 #########################################
 ######			Examples 		   ######
 #########################################

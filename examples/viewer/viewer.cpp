@@ -7,7 +7,7 @@ using namespace std;
 
 void pointPickingEventOccurred (const pcl::visualization::PointPickingEvent& event, void* viewer_void)
 {
-  std::cout << "[INOF] Point picking event occurred." << std::endl;
+  std::cout << "[INFO] Point picking event occurred." << std::endl;
 
   float x, y, z;
   if (event.getPointIndex () == -1)
@@ -15,7 +15,7 @@ void pointPickingEventOccurred (const pcl::visualization::PointPickingEvent& eve
      return;
   }
   event.getPoint(x, y, z);
-  std::cout << "[INOF] Point coordinate ( " << x << ", " << y << ", " << z << ")" << std::endl;
+  std::cout << "[INFO] Point coordinate ( " << x << ", " << y << ", " << z << ")" << std::endl;
 }
     
 int main (int argc, char** argv)

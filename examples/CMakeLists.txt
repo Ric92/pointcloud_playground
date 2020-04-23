@@ -31,6 +31,10 @@ build_example(example1 TEST1_FILES)
 set(segmentation_files segmentation/segmentation.cpp)
 build_example(segmentation segmentation_files)
 
+
+set(filters_files filters/filter_cloud.cpp)
+build_example(filters filters_files)
+
 set(viewer_files viewer/viewer.cpp)
 build_example(viewer viewer_files)
 

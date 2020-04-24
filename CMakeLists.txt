@@ -36,18 +36,25 @@ if(${PCL_FOUND})
 	MESSAGE( STATUS "Adding PCL")
 	target_include_directories(${PROJECT_NAME} PUBLIC ${PCL_INCLUDE_DIRS})
 	target_link_libraries(${PROJECT_NAME} LINK_PUBLIC ${PCL_LIBRARIES})
-	
-	target_compile_definitions(${PROJECT_NAME} PUBLIC "ENABLE_PCL" "DISABLE_PCAP" "DISABLE_PNG" "DISABLE_LIBUSB_1_0")
 
-	if(${PCL_VERSION} VERSION_GREATER 1.8)
-		target_compile_definitions(${PROJECT_NAME} PUBLIC "HAS_PCL_1_8")
-	else()
-		target_compile_definitions(${PROJECT_NAME} PUBLIC "HAS_PCL_1_7")
-	endif()
+	target_compile_definitions(${PROJECT_NAME} PUBLIC "ENABLE_PCL" "DISABLE_PCAP" "DISABLE_PNG" "DISABLE_LIBUSB_1_0")
 
 else()
 	MESSAGE( FATAL_ERROR "Couldnt Add PCL and/or it's dependencies")
 endif()
+
+#Searching CUDA
+find_package(CUDA)
+if(${CUDA_FOUND})
+	#Include the FindCUDA script
+	include(FindCUDA)
+
+	# If PCL version is greather than 1.9 (e.g. 1.10), assume that it have been build with GPU-CUDA support
+	if(${PCL_VERSION} VERSION_GREATER 1.9)
+		target_compile_definitions(${PROJECT_NAME} PUBLIC "HAS_PCL_GPU")
+	endif()
+endif()
+
 
 find_package(OpenCV)
 if(${OpenCV_FOUND})

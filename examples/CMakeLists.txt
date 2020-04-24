@@ -34,6 +34,11 @@ build_example(segmentation segmentation_files)
 set(clustering_files clustering/euclidean_clusters.cpp)
 build_example(clustering clustering_files)
 
+if(${CUDA_FOUND}) # 666 must be HAS_PCL_GPU
+    set(clustering_files_gpu clustering/euclidean_clusters_gpu.cpp)
+    build_example(clustering_gpu clustering_files_gpu)
+endif()
+
 set(filters_files filters/passthrough_filter.cpp)
 build_example(filters filters_files)
 

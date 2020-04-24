@@ -15,18 +15,19 @@ int main(int argc, char** argv) {
     // Creating the KdTree object for the search method of the extraction
     pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
     tree->setInputCloud (cloud);
+    
 
     std::vector<pcl::PointIndices> cluster_indices;
     pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
     // If you take a very small value, it can happen that an actual object can be seen as multiple clusters. 
     // On the other hand, if you set the value too high, it could happen, that multiple objects are seen as one cluster. 
     if (argc > 2){
-        ec.setClusterTolerance (atof(argv[2])); // 2cm
+        ec.setClusterTolerance (atof(argv[2])); 
     }else{
         ec.setClusterTolerance (0.02); // 2cm
     }
     
-    ec.setMinClusterSize (100);
+    ec.setMinClusterSize (500);
     ec.setMaxClusterSize (10000);
     ec.setSearchMethod (tree);
     ec.setInputCloud (cloud);
@@ -49,7 +50,7 @@ int main(int argc, char** argv) {
         cloud_cluster->is_dense = true;
 
         std::cout << "Cluster " << j << " has " << cloud_cluster->points.size() << " points." << std::endl;
-		std::string fileName = "cluster" + boost::to_string(j) + ".pcd";
+		std::string fileName = "cluster" + std::to_string(j) + ".pcd";
 		pcl::io::savePCDFileASCII(fileName, *cloud_cluster);
         j++;
     }

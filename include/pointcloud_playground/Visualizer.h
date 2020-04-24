@@ -56,7 +56,7 @@ public:
     void keycallback(const pcl::visualization::KeyboardEvent &_event, void *_data);
     void mouseEventOccurred(const pcl::visualization::MouseEvent &event, void *viewer_void);
     void pointPickedCallback(const pcl::visualization::PointPickingEvent &event, void *viewer_void);
-    boost::shared_ptr<pcl::visualization::PCLVisualizer> mViewer;
+    std::shared_ptr<pcl::visualization::PCLVisualizer> mViewer;
 
     typedef std::function<void(const pcl::visualization::KeyboardEvent &, void *)> CustomCallbackType;
     void addCustomKeyCallback(CustomCallbackType _callback);

@@ -31,8 +31,10 @@ build_example(example1 TEST1_FILES)
 set(segmentation_files segmentation/segmentation.cpp)
 build_example(segmentation segmentation_files)
 
+set(clustering_files clustering/euclidean_clusters.cpp)
+build_example(clustering clustering_files)
 
-set(filters_files filters/filter_cloud.cpp)
+set(filters_files filters/passthrough_filter.cpp)
 build_example(filters filters_files)
 
 set(viewer_files viewer/viewer.cpp)

@@ -2,6 +2,7 @@
 #include <pcl/kdtree/kdtree.h>
 #include <pcl/segmentation/extract_clusters.h>
 #include <iostream>
+#include <chrono>
 
 int main(int argc, char** argv) {
 	// Object for storing the point cloud.
@@ -17,12 +18,25 @@ int main(int argc, char** argv) {
 
     std::vector<pcl::PointIndices> cluster_indices;
     pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
-    ec.setClusterTolerance (0.02); // 2cm
+    // If you take a very small value, it can happen that an actual object can be seen as multiple clusters. 
+    // On the other hand, if you set the value too high, it could happen, that multiple objects are seen as one cluster. 
+    if (argc > 2){
+        ec.setClusterTolerance (atof(argv[2])); // 2cm
+    }else{
+        ec.setClusterTolerance (0.02); // 2cm
+    }
+    
     ec.setMinClusterSize (100);
-    ec.setMaxClusterSize (25000);
+    ec.setMaxClusterSize (10000);
     ec.setSearchMethod (tree);
     ec.setInputCloud (cloud);
+
+    auto tt0 = std::chrono::system_clock::now();
     ec.extract (cluster_indices);
+    auto tt1 = std::chrono::system_clock::now();
+    auto clusteringTime = std::chrono::duration_cast<std::chrono::milliseconds>(tt1-tt0).count();
+
+    std::cout << "Time spend clustering: " << clusteringTime << " ms\n";
 
     int j = 0;
     for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin (); it != cluster_indices.end (); ++it)

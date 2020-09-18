@@ -4,6 +4,7 @@
 #include <pcl/io/pcd_io.h>
 
 // The GPU specific stuff here
+
 #include <pcl/gpu/octree/octree.hpp>
 #include <pcl/gpu/containers/device_array.hpp>
 #include <pcl/gpu/segmentation/gpu_extract_clusters.h>
